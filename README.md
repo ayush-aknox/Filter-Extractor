@@ -6,7 +6,7 @@ in the same shape used by `data/findingsFilter.js`.
 
 ## Load it
 
-1. `chrome://extensions` → enable Developer mode → **Load unpacked** → select this `extension/` folder.
+1. `chrome://extensions` → enable Developer mode → **Load unpacked** → select this `Filter-Extractor/` folder.
 
 ## Use it
 
