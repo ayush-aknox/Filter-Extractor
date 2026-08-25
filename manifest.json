@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "AccuKnox Findings Filter Capture",
+  "version": "1.0.0",
+  "description": "Capture the filters currently applied on the AccuKnox CSPM Findings page and export them as JSON in the same {filter, input, data_field, column_name} shape used by the E2E test suite.",
+  "permissions": ["webRequest", "storage", "activeTab"],
+  "host_permissions": ["*://*.accuknox.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Capture Findings Filters"
+  }
+}

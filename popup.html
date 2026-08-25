@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Findings Filter Capture</title>
+    <style>
+    :root {
+      --bg: #f5f6fa;
+      --card: #ffffff;
+      --border: #e3e6ed;
+      --text: #14161a;
+      --text-muted: #6b7280;
+      --accent: #2451e0;
+      --accent-hover: #1c3fb8;
+      --accent-soft: #eaefff;
+      --ok: #0f9d58;
+      --ok-soft: #e8f8ee;
+      --err: #d93025;
+      --err-soft: #fdecea;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      width: 440px;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      flex: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), #5b7cfa);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h1 {
+      font-size: 13.5px;
+      margin: 0;
+      font-weight: 650;
+      line-height: 1.3;
+    }
+
+    .subtitle {
+      margin: 1px 0 0;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
+    }
+
+    select {
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      font-size: 12.5px;
+      padding: 8px 30px 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fff
+        url("data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"10\" height=\"6\" viewBox=\"0 0 10 6\"><path d=\"M1 1l4 4 4-4\" stroke=\"%236b7280\" stroke-width=\"1.5\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>")
+        no-repeat right 10px center;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .btn-primary {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 9px 10px;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+      transition: background 0.12s ease;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--accent-hover);
+    }
+
+    .btn-primary:disabled {
+      background: #aebdf2;
+      cursor: not-allowed;
+    }
+
+    .btn-primary svg {
+      flex: none;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11.5px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      line-height: 1.4;
+      background: #eef0f4;
+      color: var(--text-muted);
+    }
+
+    .status .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex: none;
+      background: #9aa1ac;
+    }
+
+    .status.status-success {
+      background: var(--ok-soft);
+      color: #0d7a45;
+    }
+    .status.status-success .dot {
+      background: var(--ok);
+    }
+
+    .status.status-error {
+      background: var(--err-soft);
+      color: #a4241c;
+    }
+    .status.status-error .dot {
+      background: var(--err);
+    }
+
+    .status.status-loading {
+      background: var(--accent-soft);
+      color: var(--accent-hover);
+    }
+    .status.status-loading .dot {
+      background: var(--accent);
+    }
+
+    .output-panel {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .output-panel[hidden] {
+      display: none;
+    }
+
+    .output-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      background: #fafbfd;
+    }
+
+    .output-header span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .btn-icon {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 4px 7px;
+      cursor: pointer;
+    }
+
+    .btn-icon:hover {
+      background: var(--accent-soft);
+    }
+
+    .btn-icon.copied {
+      color: var(--ok);
+    }
+
+    #output {
+      margin: 0;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: "SF Mono", "Fira Code", Consolas, monospace;
+      font-size: 11px;
+      padding: 10px;
+      max-height: 300px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="brand">
+        <div class="brand-mark">AK</div>
+        <div>
+          <h1>Findings Filter Capture</h1>
+          <p class="subtitle">AccuKnox CSPM · Filter data export</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <label for="dataType">Findings data type</label> <select id="dataType"></select>
+      </div>
+
+      <button id="captureBtn" class="btn-primary">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" />
+        </svg>
+        Capture Latest Filters
+      </button>
+
+      <div id="status" class="status status-idle">
+        <span class="dot"></span>
+        <span id="statusText">Open the Findings page, apply your filters, then click Capture.</span>
+      </div>
+
+      <div class="card output-panel" id="outputPanel" hidden>
+        <div class="output-header">
+          <span>Captured JSON</span>
+          <button id="copyBtn" class="btn-icon" title="Copy JSON">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            <span id="copyBtnLabel">Copy</span>
+          </button>
+        </div>
+        <pre id="output"></pre>
+      </div>
+    </div>
+
+    <script src="filterMap.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
